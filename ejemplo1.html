@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="welcome">
+            <h1 v-text="'Esta cadena no esta en Vue'">
+            </h1>
+
+            <h2 v-once>
+                {{ project }}
+            </h2>
+
+            
+        </div>
+        <footer class="footer">
+            <p>&copy; 2018 Styde.net</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: ".welcome",
+            data: {
+                name: 'Styde',
+                team: false,
+                project: 'Felix'
+            },
+            computed:{
+                reversedName: function () {
+                    return this.name.split('').reverse().join('');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

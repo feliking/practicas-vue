@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container" id="app">
+        <h4>Todas las tareas</h4>
+        <ul v-if="pendingTasks">
+            <li v-for="task in tasks">
+                {{ task.task }}
+            </li>
+        </ul>
+
+        <h4>Tareas pendientes</h4>
+        <ul>
+            <li v-for="task of pendingTasks"> 
+                {{ task.task}} 
+            </li>
+        </ul>
+
+        <!--<template v-for="(tarea, indice) in tasks">
+            <p> {{ indice + 1 }}: {{ tarea }}</p>
+        </template>-->
+        <footer class="page-footer">
+            <p>&copy; 2017 Styde.net.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                tasks: [
+                    {
+                        task: 'Aprender Vue Js',
+                        pending: false
+                    },
+                    {
+                        task: 'Inscribirse en Styde',
+                        pending: true
+                    },
+                    {
+                        task: 'Seguir a @Stydenet en Twitter',
+                        pending: true
+                    }
+                ]
+            },
+            computed:{
+                pendingTasks: function () {
+                    return this.tasks.filter( function (item){
+                        return item.pending;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app" class="container">
+        {{ $data }}
+        <h4>¿Has trabajado con Vue.js?</h4>
+        <div class="radio">
+            <label class="radio-inline">
+                <input type="radio" v-model="vue.exp" :value="true"> Sí
+            </label>
+            <label class="radio-inline">
+                <input type="radio" v-model="vue.exp" :value="false"> No
+            </label>
+        </div>
+    
+        <template v-if="vue.exp">
+            <!-- Si la respuesta es sí-->
+            <div class="form group">
+                <label for="vue_years">
+                    ¿Cuantos años de experiencia tienes con Vue?
+                </label>
+                <input type="number" v-model="vue.years" class="form-control">
+            </div>
+    
+            <!-- Si tiene un año de experiencia o menos -->
+            <div v-if="vue.years < 2" :class="'form-group' + (descriptionError ? ' is-invalid' : '')">
+                <label>
+                    ¿Que te motivo a aprender Vue?
+                </label class="control-label">
+                <textarea v-model="vue.description" class="form-control" :class="{ 'is-invalid' : descriptionError }" rows="4"></textarea>
+                <p v-if="descriptionError != ''" class="help-block">{{ descriptionError }}</p>
+            </div>
+    
+            <!-- Si ha trabajado dos años o más-->
+            <div v-else class="form-group">
+                <label for="vue_years">
+                    Cuéntanos tu experiencia con Vue.js
+                </label>
+                <textarea v-model="vue.description" rows="4" class="form-control"></textarea>
+            </div>    
+        </template>
+        
+    </div>
+  
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                vue:{
+                    exp: null,
+                    years: 0,
+                    description: ''
+                }
+
+            },
+            computed: {
+                descriptionError: function() {
+                    var val = this.vue.description.trim();
+
+                    if (val == '') {
+                        return 'El campo es obligatorio';
+                    }
+
+                    if(val.length < 5) {
+                        return 'Por favor escribe una decripcion mayor a 5 caracteres';
+                    }
+
+                    if(val.length > 20) {
+                        return 'Por favor escribe una descripcion menor a 20 caracteres';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

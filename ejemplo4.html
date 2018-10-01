@@ -22,19 +22,16 @@
                 {{ task.task}} 
             </li>
         </ul>
+        <form @submit.prevent="createTask">
+            <input type="text" v-model="new_task" class="form-control">
+            <button class="btn btn-primary" @click.prevent="createTask(true)">Crear Tarea Pendiente</button>
+            <button class="btn btn-primary" @click.prevent="createTask(false)">Crear Tarea Completada</button>
+        </form>
 
-        <ul>
-            <li v-for="i in 10">{{ i }}</li>
-        </ul>
-
-        <ul>
-            <li v-for="(value, key, index) in user">
-                {{ index +1 }}.- {{ key }}: {{ value }}
-            </li>
-        </ul>
         <!--<template v-for="(tarea, indice) in tasks">
             <p> {{ indice + 1 }}: {{ tarea }}</p>
         </template>-->
+
         <footer class="page-footer">
             <p>&copy; 2017 Styde.net.</p>
         </footer>
@@ -45,14 +42,15 @@
         var vm = new Vue({
             el: "#app",
             data: {
+                new_task: '',
                 tasks: [
                     {
                         task: 'Aprender Vue Js',
-                        pending: false
+                        pending: true
                     },
                     {
                         task: 'Inscribirse en Styde',
-                        pending: false
+                        pending: true
                     },
                     {
                         task: 'Seguir a @Stydenet en Twitter',
@@ -72,6 +70,17 @@
                     return this.tasks.filter( function (item){
                         return item.pending;
                     });
+                }
+            },
+            methods:{
+                createTask: function(pending){
+
+                    this.tasks.push({
+                        task: this.new_task,
+                        pending: pending
+                    });
+
+                    this.new_task = '';
                 }
             }
         });

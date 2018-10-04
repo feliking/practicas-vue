@@ -18,8 +18,8 @@
 
         <h4 v-if="pendingTasks.length">Tareas pendientes</h4>
         <ul>
-            <li v-for="task of pendingTasks"> 
-                {{ task.task}} 
+            <li v-for="task of pendingTasks">
+                {{ task.task}}
             </li>
         </ul>
         <form @submit.prevent="createTask">

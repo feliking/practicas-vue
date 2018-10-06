@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aplicación CRUD VUE JS</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body>
+  <div id="app" class="container">
+    <h2>Tareas</h2>
+
+    <ul class="list-group tasks">
+      <li v-for="task in tasks" class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
+        <a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span></a>
+        <span class="description">Aprender Vue.js</span>
+
+        <div>
+          <a href="#">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </a>
+          <a href="#">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </a>
+        </div>
+      </li>
+
+      <li class="list-group-item editing">
+        <a href="#">
+          <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+        </a>
+        <input type="text" value="Suscribirse en Styde">
+      <div>
+        <a href="#">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        </a>
+        <a href="#">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </a>
+      </div>
+      </li>
+      <li class="list-group-item completed">
+        <a href="#">
+          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+        </a>
+
+        <span class="description">Crear una API</span>
+
+        <div>
+          <a href="#">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </a>
+          <a href="#">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+          </a>
+        </div>
+      </li>
+    </ul>
+
+    <form action="" class="new-task-form">
+      <input type="text" class="form.control">
+      <button class="btn btn-primary">Crear Tarea</button>
+    </form>
+
+    <footer class="footer">
+      <p>&copy; 2018 Styde.net</p>
+    </footer>
+
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el:'#app',
+      data: {
+        tasks: [
+          {
+            description: 'Aprender Vue.js',
+            pending: true,
+            editing: false
+          },
+          {
+            description: 'Suscribirse a Stude.net',
+            pending: true,
+            editing: true
+          },
+          {
+            description: 'Grabar lección de Vue',
+            pending: false,
+            editing: false
+          }
+        ]
+      }
+    });
+  </script>
+</body>
+</html>

@@ -7,60 +7,45 @@
   <title>Aplicación CRUD VUE JS</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app" class="container">
     <h2>Tareas</h2>
 
     <ul class="list-group tasks">
-      <li v-for="task in tasks" class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
-        <a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span></a>
-        <span class="description">Aprender Vue.js</span>
+      <li v-for="(task, index) in tasks" class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
+        <a @click="toggleStatus(task)"><span class="glyphicon" :class="task.pending ? 'glyphicon-unchecked' : 'glyphicon-check'" aria-hidden="true"></span></a>
 
-        <div>
-          <a href="#">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-          </a>
-          <a href="#">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-          </a>
-        </div>
+        <template v-if="!task.editing">
+          <span class="description">{{ task.description }}</span>
+          <div style="float: right">
+            <a @click="editTask(task)">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+            <a @click="deleteTask(index)">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+          </div>
+        </template>
+
+        <template v-else>
+          <input class="description" type="text" v-model="draft">
+          <div style="float: right">
+            <a @click="updateTask(task)">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </a>
+            <a @click="discardTask(task)">
+              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </a>
+          </div>
+        </template>
       </li>
 
-      <li class="list-group-item editing">
-        <a href="#">
-          <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
-        </a>
-        <input type="text" value="Suscribirse en Styde">
-      <div>
-        <a href="#">
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        </a>
-        <a href="#">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </a>
-      </div>
-      </li>
-      <li class="list-group-item completed">
-        <a href="#">
-          <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
-        </a>
-
-        <span class="description">Crear una API</span>
-
-        <div>
-          <a href="#">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-          </a>
-          <a href="#">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-          </a>
-        </div>
-      </li>
     </ul>
-
-    <form action="" class="new-task-form">
-      <input type="text" class="form.control">
+    <p><a @click="deleteCompleted" href="#">Eliminar tareas completadas</a></p>
+    <form @submit.prevent="createTask" action="" class="new-task-form">
+      <input v-model="new_task" type="text" class="form.control">
       <button class="btn btn-primary">Crear Tarea</button>
     </form>
 
@@ -70,29 +55,6 @@
 
   </div>
   <script src="vue.js"></script>
-  <script>
-    var vm = new Vue({
-      el:'#app',
-      data: {
-        tasks: [
-          {
-            description: 'Aprender Vue.js',
-            pending: true,
-            editing: false
-          },
-          {
-            description: 'Suscribirse a Stude.net',
-            pending: true,
-            editing: true
-          },
-          {
-            description: 'Grabar lección de Vue',
-            pending: false,
-            editing: false
-          }
-        ]
-      }
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

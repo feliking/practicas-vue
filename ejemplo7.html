@@ -30,11 +30,11 @@
   <script src="vue.js"></script>
 
   <script type="text/x-template" id="task-template">
-    <li class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
+    <li class="list-group-item" :class="{editing: editing, completed: !task.pending}">
       <a @click="toggleStatus">
         <app-icon :img="task.pending ? 'unchecked' : 'check'"></app-icon>
       </a>
-      <template v-if="!task.editing">
+      <template v-if="!editing">
         <span class="description">{{ task.description }}</span>
 
         <div style="float: right">

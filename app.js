@@ -1,3 +1,5 @@
+var EventBus = new Vue;
+
 Vue.component('app-icon',{
   template: '<span :class="cssClasses" aria-hidden="true"></span>',
   props: ['img'],
@@ -17,27 +19,34 @@ Vue.component('app-task',{
   },
   template: '#task-template',
   props: ['task', 'index'],
+  created: function (){
+    EventBus.$on('editing', function (index){
+      if(this.index != index){
+        console.log('Discarding: '+this.index);
+        this.discard();
+      }
+    }.bind(this));
+  },
   methods: {
     toggleStatus: function () {
       this.task.pending = !this.task.pending;
     },
     edit: function(){
-      // this.$parent.tasks.forEach(function (task){
-      //   task.editing = false;
-      // });
-      //
+      console.log('Editing ' + this.index);
+      EventBus.$emit('editing', this.index);
+
       this.draft = this.task.description;
 
-      this.task.editing = true;
+      this.editing = true;
     },
     update: function () {
 
       this.task.description = this.draft;
 
-      this.task.editing = false;
+      this.editing = false;
     },
     discard: function () {
-      this.task.editing = false;
+      this.editing = false;
     },
     remove: function () {
       this.$emit('remove', this.index);
@@ -70,20 +79,19 @@ var vm = new Vue({
     }
   },
   data: {
-    draft: '',
     new_task: '',
     tasks: [
       {
         description: 'Aprender Vue.js',
-        pending: true,
+        pending: true
       },
       {
         description: 'Suscribirse a Stude.net',
-        pending: true,
+        pending: true
       },
       {
         description: 'Grabar lección de Vue',
-        pending: false,
+        pending: false
       }
     ]
   }

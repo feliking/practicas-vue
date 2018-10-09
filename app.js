@@ -1,3 +1,50 @@
+Vue.component('app-icon',{
+  template: '<span :class="cssClasses" aria-hidden="true"></span>',
+  props: ['img'],
+  computed: {
+    cssClasses: function (){
+      return 'glyphicon glyphicon-'+this.img;
+    }
+  }
+});
+
+Vue.component('app-task',{
+  data: function (){
+    return {
+      editing: false,
+      draft: ''
+    };
+  },
+  template: '#task-template',
+  props: ['task', 'index'],
+  methods: {
+    toggleStatus: function () {
+      this.task.pending = !this.task.pending;
+    },
+    edit: function(){
+      // this.$parent.tasks.forEach(function (task){
+      //   task.editing = false;
+      // });
+      //
+      this.draft = this.task.description;
+
+      this.task.editing = true;
+    },
+    update: function () {
+
+      this.task.description = this.draft;
+
+      this.task.editing = false;
+    },
+    discard: function () {
+      this.task.editing = false;
+    },
+    remove: function () {
+      this.$emit('remove', this.index);
+    }
+  }
+});
+
 var vm = new Vue({
   el:'#app',
   methods: {
@@ -13,25 +60,7 @@ var vm = new Vue({
     toggleStatus: function (task) {
       task.pending = !task.pending;
     },
-    editTask: function(task){
-      this.tasks.forEach(function (task){
-        task.editing = false;
-      });
-
-      this.draft = task.description;
-
-      task.editing = true;
-    },
-    updateTask: function (task) {
-
-      task.description = this.draft;
-
-      task.editing = false;
-    },
-    discardTask: function (task) {
-      task.editing = false;
-    },
-    deleteTask: function (index) {
+    deleteTask: function (index){
       this.tasks.splice(index, 1);
     },
     deleteCompleted: function () {
@@ -47,17 +76,14 @@ var vm = new Vue({
       {
         description: 'Aprender Vue.js',
         pending: true,
-        editing: false
       },
       {
         description: 'Suscribirse a Stude.net',
         pending: true,
-        editing: false
       },
       {
         description: 'Grabar lección de Vue',
         pending: false,
-        editing: false
       }
     ]
   }

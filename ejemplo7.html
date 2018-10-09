@@ -14,36 +14,7 @@
     <h2>Tareas</h2>
 
     <ul class="list-group tasks">
-      <li v-for="(task, index) in tasks" class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
-        <a @click="toggleStatus(task)">
-          <app-icon :img="task.pending ? 'unchecked' : 'check'"></app-icon>
-        <template v-if="!task.editing">
-          <span class="description">{{ task.description }}</span>
-
-          <div style="float: right">
-            <a @click="editTask(task)">
-              <app-icon img="edit"></app-icon>
-            </a>
-            <a @click="deleteTask(index)">
-              <app-icon img="trash"></app-icon>
-            </a>
-          </div>
-
-        </template>
-
-        <template v-else>
-          <input class="description" type="text" v-model="draft">
-          <div style="float: right">
-            <a @click="updateTask(task)">
-              <app-icon img="ok"></app-icon>
-            </a>
-            <a @click="discardTask(task)">
-              <app-icon img="remove"></app-icon>
-            </a>
-          </div>
-        </template>
-      </li>
-
+      <li is="app-task" v-for="(task, index) in tasks" :task="task" :index="index" @remove="deleteTask"></li>
     </ul>
     <p><a @click="deleteCompleted" href="#">Eliminar tareas completadas</a></p>
     <form @submit.prevent="createTask" action="" class="new-task-form">
@@ -57,6 +28,39 @@
 
   </div>
   <script src="vue.js"></script>
+
+  <script type="text/x-template" id="task-template">
+    <li class="list-group-item" :class="{editing: task.editing, completed: !task.pending}">
+      <a @click="toggleStatus">
+        <app-icon :img="task.pending ? 'unchecked' : 'check'"></app-icon>
+      </a>
+      <template v-if="!task.editing">
+        <span class="description">{{ task.description }}</span>
+
+        <div style="float: right">
+          <a @click="edit">
+            <app-icon img="edit"></app-icon>
+          </a>
+          <a @click="remove">
+            <app-icon img="trash"></app-icon>
+          </a>
+        </div>
+
+      </template>
+
+      <template v-else>
+        <input class="description" type="text" v-model="draft">
+        <div style="float: right">
+          <a @click="update">
+            <app-icon img="ok"></app-icon>
+          </a>
+          <a @click="discard">
+            <app-icon img="remove"></app-icon>
+          </a>
+        </div>
+      </template>
+    </li>
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
